@@ -10,11 +10,18 @@
         <div class="col col-md-4"><table class="table">
             <tbody>
                 {% for record in patient_entries_n %}
-                  <tr><td>{{record.name}}</td><td>
-                      {% if record.is_acknowledged == "False" %}
+                  <tr><td data-toggle="collapse" data-target="#record_{{record.id}}">{{record.name}}</td>
+                      <td>{% if record.is_acknowledged == "False" %}
                       <a href="{% url 'patient_view' patient_username=patient_username entry_id=record.id %}">Acknowledge</a>
                       {% endif %}
-                  </td></tr>
+                  </td>
+                  <td><a href="{% url 'new_comment' patient_username=patient_username entry_id=record.id %}">Comment</a></td>
+                  </tr>
+                <tr><td><div id="record_{{record.id}}" class="collapse">
+                        {% for com in record.comment_list %}
+                    <p>{{com.date}} ({{com.autor}}): {{com.value}}</p>
+                        {% endfor %}
+                </div></td></tr>
                 {% endfor %}
             </tbody>
         </table></div>
@@ -27,11 +34,17 @@
         <div class="col col-md-4"><table class="table">
             <tbody>
                 {% for record in patient_entries_r %}
-                  <tr><td>{{record.name}}</td><td>
+                  <tr><td data-toggle="collapse" data-target="#result_{{record.id}}">{{record.name}}</td><td>
                       {% if record.is_acknowledged == "False" %}
                       <a href="{% url 'patient_view' patient_username=patient_username entry_id=record.id %}">Acknowledge</a>
                       {% endif %}
-                  </td></tr>
+                  </td><td><a href="{% url 'new_comment' patient_username=patient_username entry_id=record.id %}">Comment</a></td>
+                  </tr>
+                <tr><td><div id="result_{{record.id}}" class="collapse">
+                        {% for com in record.comment_list %}
+                    <p>{{com.date}} ({{com.autor}}): {{com.value}}</p>
+                        {% endfor %}
+                </div></td></tr>
                 {% endfor %}
             </tbody>
         </table></div>

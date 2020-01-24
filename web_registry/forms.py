@@ -7,3 +7,8 @@ class EntryForm(forms.ModelForm):
         model = Entry
         fields = ('entry_type', 'value')
         #fields = ('entry_type', 'value', 'upload')
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('value',)
