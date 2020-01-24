@@ -1,6 +1,17 @@
-{% extends 'index.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Home{% endblock %}
-{% block user_index %}
-<p>Hello Doctor!</p>
+{% block content %}
+    <div class="row justify-content-md-center login_form">
+        <div class="col col-md-auto"><h2>My Patients</h2></div>
+        <div class="col col-md-auto"><a href="{% url 'assign_patients' %}" class="btn btn-info" role="button">Add new patient</a></div>
+    </div><div class="row justify-content-md-center login_form">
+        <div class="col col-md-4"><table class="table">
+            <tbody>
+                {% for record in patient_list %}
+                  <tr><td>{{record}}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table></div>
+    </div>
 {% endblock %}

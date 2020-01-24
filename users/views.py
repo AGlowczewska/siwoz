@@ -5,7 +5,6 @@ from users.models import Doctor, Patient, Profile
 
 
 def logout_view(request):
-    #context = {'msg': 'You have been successfully logged out.'}
     logout(request)
     return redirect('index')
 
