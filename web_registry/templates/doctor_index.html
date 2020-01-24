@@ -9,7 +9,9 @@
         <div class="col col-md-4"><table class="table">
             <tbody>
                 {% for record in patient_list %}
-                  <tr><td>{{record}}</td><td><a href="{% url 'patient_view' patient_username=record %}">More</a></td></tr>
+                  <tr>
+                      {% if record.has_new_entries == True %} <td><b>!NEW ENTRIES! </b></td>{% else %} <td></td> {% endif %}
+                      <td>{{record.name}}</td><td><a href="{% url 'patient_view' patient_username=record.name %}">More</a></td></tr>
                 {% endfor %}
             </tbody>
         </table></div>

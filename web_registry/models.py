@@ -11,6 +11,7 @@ class Entry(models.Model):
     value = models.TextField(max_length=1000, blank=True)
     upload = models.ImageField(upload_to='upload/', blank=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, blank=True, null=True)
+    is_acknowledged = models.BooleanField(default=False)
 
     def __str__(self):
         return "%s : %s" % (self.date.strftime("%d.%m.%Y %H:%M"), self.value)

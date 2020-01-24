@@ -35,7 +35,10 @@ def index(request):
         context['header'] = "Doctor's portal"
         context['patient_list'] = []
         for x in Patient.objects.filter(doctor=request.user.profile.doctor):
-            context['patient_list'].append(x.profile.user.username)
+            if Entry.objects.filter(is_acknowledged=False, patient=x):
+                context['patient_list'].append({'name': x.profile.user.username, 'has_new_entries': True})
+            else:
+                context['patient_list'].append({'name': x.profile.user.username, 'has_new_entries': False})
         return render(request, 'doctor_index.html', context)
     else:
         context['header'] = "Patient's portal"
