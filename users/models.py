@@ -11,6 +11,18 @@ class Profile(models.Model):
     account_type = models.TextField(max_length=1, choices=CHOICES, blank=True)
     specialization = models.CharField(max_length=30, blank=True)
 
+    def is_patient(self):
+        if self.account_type == 'P':
+            return True
+        else:
+            return False
+
+    def is_doctor(self):
+        if self.account_type == 'D':
+            return True
+        else:
+            return False
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
