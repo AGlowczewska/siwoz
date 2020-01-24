@@ -8,7 +8,7 @@ class Entry(models.Model):
     CHOICES = [('N', 'Note'),
                ('R', 'Results')]
     entry_type = models.TextField(max_length=1, choices=CHOICES, blank=True)
-    value = models.TextField(max_length=1000, choices=CHOICES, blank=True)
-    upload = models.ImageField()
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    value = models.TextField(max_length=1000, blank=True)
+    upload = models.ImageField(upload_to='upload/', blank=True)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, blank=True, null=True)
 

@@ -15,8 +15,6 @@ def signup_view(request):
         if form.is_valid():
             user = form.save()
             user_profile = Profile.objects.create(user=user)
-
-            #user.refresh_from_db()  # load the profile instance created by the signal
             user_profile.account_type = form.cleaned_data.get('account_type')
             user_profile.save()
 

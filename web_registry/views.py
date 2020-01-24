@@ -1,7 +1,21 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-
 from web_registry.functions import *
+from web_registry.forms import *
+
+
+@login_required
+def new_entry(request):
+    if request.method == 'POST':
+        form = EntryForm(request.POST, request.FILES)
+        if form.is_valid():
+            entry = form.save()
+            entry.patient = request.user.profile.patient
+            entry.save()
+            return redirect('index')
+    else:
+        form = EntryForm()
+    return render(request, 'entry_form.html', {'form': form})
 
 
 @login_required
