@@ -5,12 +5,15 @@ from web_registry.forms import *
 
 
 @login_required
-def new_entry(request):
+def new_entry(request, patient_username):
     if request.method == 'POST':
         form = EntryForm(request.POST, request.FILES)
         if form.is_valid():
             entry = form.save()
-            entry.patient = request.user.profile.patient
+            patient = Patient.objects.get(profile__user__username=patient_username)
+            if request.user.profile.is_doctor():
+                entry.is_acknowledged = True
+            entry.patient = patient
             entry.save()
             return redirect('index')
     else:
