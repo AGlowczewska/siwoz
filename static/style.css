@@ -1,0 +1,19 @@
+html, body {
+  background-color: #f6f6f6;
+  font-family: "Poppins", sans-serif;
+  height: 100% !important;
+}
+
+main, .row {
+ height: inherit;
+}
+
+.login_wrapper {
+    height: inherit;
+    text-align: center;
+}
+
+.login_form {
+    background-color: white;
+    padding: 1%;
+}
