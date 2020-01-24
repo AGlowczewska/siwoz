@@ -10,7 +10,11 @@
         <div class="col col-md-4"><table class="table">
             <tbody>
                 {% for record in patient_entries_n %}
-                  <tr><td>{{record}}</td></tr>
+                  <tr><td>{{record.name}}</td><td>
+                      {% if record.is_acknowledged == "False" %}
+                      <a href="{% url 'patient_view' patient_username=patient_username entry_id=record.id %}">Acknowledge</a>
+                      {% endif %}
+                  </td></tr>
                 {% endfor %}
             </tbody>
         </table></div>
@@ -23,7 +27,11 @@
         <div class="col col-md-4"><table class="table">
             <tbody>
                 {% for record in patient_entries_r %}
-                  <tr><td>{{record}}</td></tr>
+                  <tr><td>{{record.name}}</td><td>
+                      {% if record.is_acknowledged == "False" %}
+                      <a href="{% url 'patient_view' patient_username=patient_username entry_id=record.id %}">Acknowledge</a>
+                      {% endif %}
+                  </td></tr>
                 {% endfor %}
             </tbody>
         </table></div>

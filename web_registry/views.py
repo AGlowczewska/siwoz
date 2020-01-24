@@ -18,13 +18,19 @@ def new_entry(request):
     return render(request, 'entry_form.html', {'form': form})
 
 
-def patient_view(request, patient_username):
+def patient_view(request, patient_username, entry_id=''):
+    if entry_id:
+        entry = Entry.objects.get(id=entry_id)
+        entry.is_acknowledged = True
+        entry.save()
+
     context = {'patient_username': patient_username, 'patient_entries_n': [], 'patient_entries_r': []}
     for x in Entry.objects.filter(patient__profile__user__username=patient_username):
         if x.entry_type == 'N':
-            context['patient_entries_n'].append(x)
+            context['patient_entries_n'].append({'name': x, 'is_acknowledged': str(x.is_acknowledged),
+                                                 'id': x.id})
         else:
-            context['patient_entries_r'].append(x)
+            context['patient_entries_r'].append({'name': x, 'is_acknowledged': str(x.is_acknowledged), 'id': x.id})
     return render(request, 'patient_view.html', context)
 
 

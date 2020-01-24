@@ -4,6 +4,7 @@ from . import views
 
 
 urlpatterns = [
+    url(r'^acknowledge/(?P<patient_username>[A-Za-z0-9]+)/(?P<entry_id>[A-Za-z0-9]+)/$', views.patient_view, name='patient_view'),
     url(r'^view/(?P<patient_username>[A-Za-z0-9]+)/$', views.patient_view, name='patient_view'),
     url(r'^assign/(?P<patient_username>[A-Za-z0-9]+)/$', views.assign_doctor, name='assign_doctor'),
     url(r'^unassign/(?P<patient_username>[A-Za-z0-9]+)/$', views.unassign_doctor, name='unassign_doctor'),
