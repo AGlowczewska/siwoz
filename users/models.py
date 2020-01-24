@@ -9,13 +9,6 @@ class Profile(models.Model):
     CHOICES = [('D', 'Doctor'),
                ('P', 'Patient')]
     account_type = models.TextField(max_length=1, choices=CHOICES, blank=True)
-    specialization = models.CharField(max_length=30, blank=True)
-
-    def is_patient(self):
-        if self.account_type == 'P':
-            return True
-        else:
-            return False
 
     def is_doctor(self):
         if self.account_type == 'D':
@@ -24,12 +17,11 @@ class Profile(models.Model):
             return False
 
 
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
+class Doctor(models.Model):
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
+    specialization = models.CharField(max_length=30, blank=True)
 
 
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+class Patient(models.Model):
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
+    doctor = models.ForeignKey(Doctor, on_delete=models.PROTECT, null=True)

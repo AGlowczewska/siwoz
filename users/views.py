@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from users.forms import SignUpForm
+from users.models import Doctor, Patient, Profile
 
 
 def logout_view(request):
@@ -14,10 +15,20 @@ def signup_view(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            user.refresh_from_db()  # load the profile instance created by the signal
-            user.profile.account_type = form.cleaned_data.get('account_type')
-            user.profile.specialization = form.cleaned_data.get('specialization')
-            user.save()
+            user_profile = Profile.objects.create(user=user)
+
+            #user.refresh_from_db()  # load the profile instance created by the signal
+            user_profile.account_type = form.cleaned_data.get('account_type')
+            user_profile.save()
+
+            if user.profile.is_doctor():
+                doctor = Doctor.objects.create(profile=user.profile,
+                                               specialization=form.cleaned_data.get('specialization'))
+                doctor.save()
+            else:
+                patient = Patient.objects.create(profile=user.profile)
+                patient.save()
+
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
