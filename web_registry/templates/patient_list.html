@@ -2,9 +2,26 @@
 
 {% block title %}Home{% endblock %}
 {% block content %}
-<div class="row justify-content-md-center login_form">
-  <div class="col col-md-auto"><h2>My Entries</h2></div>
-  <div class="col col-md-auto"><a href="{% url 'new_entry' %}" class="btn btn-info" role="button">Add new entry</a></div>
-</div>
 
+<div class="row justify-content-md-center login_form">
+        <div class="col col-md-8"><table class="table">
+          <thead style="font-weight:bold;"><td>Patient</td><td>Doctor</td><td>Action</td></thead>
+            <tbody>
+                {% for record in patient_list %}
+                  <tr><td>{{record.username}}</td>
+                    <td>{{record.doctor}}</td>
+                    {% if record.action == "Not permitted" %}<td>{{record.action}}</td>
+                      {% elif record.action == "Unassign myself from the patient" %}
+                        <td><a href="{% url 'unassign_doctor' patient_username=record.username %}">{{record.action}}</a></td>
+                      {% else %} <td><a href="{% url 'assign_doctor' patient_username=record.username %}">{{record.action}}</a></td>
+                    {% endif %}
+                  </tr>
+                {% endfor %}
+            </tbody>
+        </table></div>
+    </div>
+
+<div class="row justify-content-md-center login_form">
+<div class="col col-md-auto"><a href="{% url 'index' %}" class="btn btn-info" role="button">Go to main page</a></div>
+</div>
 {% endblock %}

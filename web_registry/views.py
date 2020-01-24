@@ -21,7 +21,7 @@ def index(request):
 
 @login_required
 def assign_patients(request):
-    context = {'patient_list': get_patient_list()}
+    context = {'patient_list': get_patient_list(request.user.username)}
     return render(request, 'patient_list.html', context)
 
 
@@ -29,6 +29,13 @@ def assign_doctor(request, patient_username):
     patient_object = User.objects.get(username=patient_username).profile.patient
     patient_object.doctor = request.user.profile.doctor
     patient_object.save()
-    context = {'patient_list': get_patient_list()}
+    context = {'patient_list': get_patient_list(request.user.username)}
     return render(request, 'patient_list.html', context)
 
+
+def unassign_doctor(request, patient_username):
+    patient_object = User.objects.get(username=patient_username).profile.patient
+    patient_object.doctor = None
+    patient_object.save()
+    context = {'patient_list': get_patient_list(request.user.username)}
+    return render(request, 'patient_list.html', context)

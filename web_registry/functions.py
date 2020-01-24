@@ -1,7 +1,7 @@
 from users.models import *
 
 
-def get_patient_list():
+def get_patient_list(doctor_username):
     query = Patient.objects.filter()
     patient_list = []
     for x in query:
@@ -13,6 +13,8 @@ def get_patient_list():
         if patient['doctor'] is None:
             patient['doctor'] = 'Not assigned'
             patient['action'] = 'Assign myself to the patient'  # todo other options
+        elif patient['doctor'] == doctor_username:
+            patient['action'] = 'Unassign myself from the patient'
         else:
             patient['action'] = 'Not permitted'
         patient_list.append(patient)
