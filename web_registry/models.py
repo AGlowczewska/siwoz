@@ -12,3 +12,6 @@ class Entry(models.Model):
     upload = models.ImageField(upload_to='upload/', blank=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, blank=True, null=True)
 
+    def __str__(self):
+        return "%s : %s" % (self.date.strftime("%d.%m.%Y %H:%M"), self.value)
+

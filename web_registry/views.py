@@ -25,11 +25,17 @@ def index(request):
         context['header'] = "Doctor's portal"
         context['patient_list'] = []
         for x in Patient.objects.filter(doctor=request.user.profile.doctor):
-            print(x.profile.user.username)
             context['patient_list'].append(x.profile.user.username)
         return render(request, 'doctor_index.html', context)
     else:
         context['header'] = "Patient's portal"
+        context['patient_entries_n'] = []
+        context['patient_entries_r'] = []
+        for x in Entry.objects.filter(patient=request.user.profile.patient):
+            if x.entry_type == 'N':
+                context['patient_entries_n'].append(x)
+            else:
+                context['patient_entries_r'].append(x)
         return render(request, 'patient_index.html', context)
 
 
