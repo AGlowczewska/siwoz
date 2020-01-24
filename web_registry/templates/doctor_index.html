@@ -9,7 +9,7 @@
         <div class="col col-md-4"><table class="table">
             <tbody>
                 {% for record in patient_list %}
-                  <tr><td>{{record}}</td></tr>
+                  <tr><td>{{record}}</td><td><a href="{% url 'patient_view' patient_username=record %}">More</a></td></tr>
                 {% endfor %}
             </tbody>
         </table></div>

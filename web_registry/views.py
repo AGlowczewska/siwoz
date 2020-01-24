@@ -18,6 +18,16 @@ def new_entry(request):
     return render(request, 'entry_form.html', {'form': form})
 
 
+def patient_view(request, patient_username):
+    context = {'patient_username': patient_username, 'patient_entries_n': [], 'patient_entries_r': []}
+    for x in Entry.objects.filter(patient__profile__user__username=patient_username):
+        if x.entry_type == 'N':
+            context['patient_entries_n'].append(x)
+        else:
+            context['patient_entries_r'].append(x)
+    return render(request, 'patient_view.html', context)
+
+
 @login_required
 def index(request):
     context = {}

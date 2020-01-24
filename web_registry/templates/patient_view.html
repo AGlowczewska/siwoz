@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Patient view{% endblock %}
+{% block content %}
+<div class="row justify-content-md-center login_form">
+  <div class="col col-md-auto"><h2>Entries for {{patient_username}}</h2></div>
+</div>
+
+<div class="row justify-content-md-center login_form">
+        <div class="col col-md-4"><table class="table">
+            <tbody>
+                {% for record in patient_entries_n %}
+                  <tr><td>{{record}}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table></div>
+    </div>
+
+<div class="row justify-content-md-center login_form">
+  <div class="col col-md-auto"><h2>Results for {{patient_username}}</h2></div>
+</div>
+<div class="row justify-content-md-center login_form">
+        <div class="col col-md-4"><table class="table">
+            <tbody>
+                {% for record in patient_entries_r %}
+                  <tr><td>{{record}}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table></div>
+    </div>
+
+<div class="row justify-content-md-center login_form">
+<div class="col col-md-auto"><a href="{% url 'index' %}" class="btn btn-info" role="button">Go to main page</a></div>
+</div>
+{% endblock %}
