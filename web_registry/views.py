@@ -18,6 +18,7 @@ def new_entry(request):
     return render(request, 'entry_form.html', {'form': form})
 
 
+@login_required
 def new_comment(request, patient_username, entry_id):
     if request.method == 'POST':
         form = CommentForm(request.POST, request.FILES)
@@ -26,12 +27,17 @@ def new_comment(request, patient_username, entry_id):
             comment.entry = Entry.objects.get(id=entry_id)
             comment.autor = request.user
             comment.save()
-            return redirect('patient_view', patient_username)
+            if request.user.profile.is_doctor():
+                return redirect('patient_view', patient_username)
+            else:
+                return redirect('index')
     else:
         form = CommentForm()
+
     return render(request, 'comment_form.html', {'form': form})
 
 
+@login_required
 def patient_view(request, patient_username, entry_id=''):
     if entry_id:
         entry = Entry.objects.get(id=entry_id)
@@ -69,11 +75,18 @@ def index(request):
         context['header'] = "Patient's portal"
         context['patient_entries_n'] = []
         context['patient_entries_r'] = []
+        context['patient_username'] = request.user.username
         for x in Entry.objects.filter(patient=request.user.profile.patient):
+            comments = Comment.objects.filter(entry=x)
+            comment_list = []
+            for com in comments:
+                comment_list.append({'date': com.date, 'autor': com.autor.username, 'value': com.value})
             if x.entry_type == 'N':
-                context['patient_entries_n'].append(x)
+                context['patient_entries_n'].append({'name': x, 'is_acknowledged': str(x.is_acknowledged),
+                                                     'id': x.id, 'comment_list': comment_list})
             else:
-                context['patient_entries_r'].append(x)
+                context['patient_entries_r'].append({'name': x, 'is_acknowledged': str(x.is_acknowledged),
+                                                     'id': x.id, 'comment_list': comment_list})
         return render(request, 'patient_index.html', context)
 
 
