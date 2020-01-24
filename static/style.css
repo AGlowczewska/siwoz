@@ -17,3 +17,7 @@ main, .row {
     background-color: white;
     padding: 1%;
 }
+
+#id_account_type {
+    list-style-type:none;
+}

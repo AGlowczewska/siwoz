@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="'wrapper login_wrapper">
+
+    <div class="row justify-content-md-center align-items-center">
+    <div class="col col-md-6 col-md-offset-3 login_form">
   <h2>Sign up</h2>
   <form method="post">
     {% csrf_token %}
@@ -9,13 +13,14 @@
         {{ field.label_tag }}<br>
         {{ field }}
         {% if field.help_text %}
-          <small style="color: grey">{{ field.help_text }}</small>
+          <div><small style="color: grey">{{ field.help_text }}</small></div>
         {% endif %}
         {% for error in field.errors %}
           <p style="color: red">{{ error }}</p>
         {% endfor %}
       </p>
     {% endfor %}
-    <button type="submit">Sign up</button>
+    <button type="submit" class="btn btn-success">Sign up</button>
   </form>
+    </div></div></div>
 {% endblock %}
