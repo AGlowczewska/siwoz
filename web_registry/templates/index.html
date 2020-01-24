@@ -2,7 +2,6 @@
 
 {% block title %}Home{% endblock %}
 {% block content %}
-<p>{{ msg }}</p>
 {% if user.is_authenticated %}
   Hi {{ user.username }}!
   <p><a href="{% url 'logout' %}">Logout</a></p>
@@ -11,4 +10,7 @@
   <a href="{% url 'login' %}">Login</a>
   <a href="{% url 'signup' %}">Sign up</a>
 {% endif %}
+
+    {% block user_content %}
+    {% endblock %}
 {% endblock %}
